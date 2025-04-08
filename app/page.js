@@ -22,6 +22,15 @@ export default function Home() {
           priority
         />
 
+        <div className="relative flex items-center justify-center w-full max-w-lg bg-transparent shadow-lg 
+          shadow-blue-500/50 rounded-xl overflow-hidden 
+          border-2 border-transparent p-8 h-auto sm:h-[500px] md:h-[550px]" >
+          <div className="absolute inset-0 w-full h-full border-2 border-transparent rounded-xl 
+          animate-moving-border" >
+            <h2>Coming Soon</h2>
+          </div>
+        </div>
+
         <div
           className="relative flex items-center justify-center w-full max-w-lg bg-transparent shadow-lg 
           shadow-blue-500/50 rounded-xl overflow-hidden 
@@ -34,10 +43,10 @@ export default function Home() {
           {/* Inner Content */}
           <div className="relative z-10 text-white text-lg font-semibold px-2 md:px-8">
             <div className="text-center">
-              <h3 className="text-[#AC1754] font-bold text-2xl sm:text-3xl md:text-5xl md:font-black ">
+              <h3 className="text-[#AC1754] font-primary  font-bold text-2xl sm:text-3xl md:text-5xl md:font-black ">
                 Join our waitlist
               </h3>
-              <p className="mt-3 text-[#ffffff] font-normal text-base md:text-xl md:font-bold">
+              <p className="mt-3 text-[#ffffff] font-secondary font-normal text-base md:text-xl md:font-bold">
                 Sign up for our newsletter to receive the latest updates and
                 insights straight to your inbox.
               </p>
@@ -54,7 +63,7 @@ export default function Home() {
               </div>
             </div>
 
-            <p className="text-center mt-6 font-bold lg:font-black">OR</p>
+            <p className="text-center mt-6 font-bold font-primary lg:font-black">OR</p>
 
             <div className="mt-6 flex flex-col items-center space-y-4">
               <input
@@ -85,7 +94,7 @@ export default function Home() {
                     ></path>
                   </svg>
                 </span>
-                <span className="relative">Join WaitList</span>
+                <span className="relative font-primary">Join WaitList</span>
               </button>
             </div>
           </div>
