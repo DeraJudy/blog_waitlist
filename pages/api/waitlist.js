@@ -5,6 +5,9 @@ export default async function handler(req, res) {
   if (req.method !== "POST") {
     return res.status(405).json({ error: "Method not allowed" });
   }
+  
+  console.log("POST request received"); // Log to confirm the request is hitting the API
+  
 
   const { email } = req.body;
 

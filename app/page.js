@@ -14,18 +14,26 @@ export default function Home() {
   
     setStatus("Submitting...");
   
-    const res = await fetch("/api/waitlist", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ email }),
-    });
+    try {
+      const res = await fetch("/api/waitlist", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email }),
+      });
   
-    const data = await res.json();
-    if (res.ok) {
-      setStatus("You're on the waitlist!");
+      // Check for success or error status codes
+      if (!res.ok) {
+        const errorData = await res.json(); // Get the error message
+        setStatus(errorData.message || "Something went wrong.");
+        return;
+      }
+  
+      const data = await res.json(); // Parse the successful response
+  
+      setStatus(data.message || "You're on the waitlist!");
       setEmail(""); // clear input
-    } else {
-      setStatus(data.message || data.error || "Something went wrong.");
+    } catch (error) {
+      setStatus("Error: " + error.message); // Handle network or parsing errors
     }
   };
   
