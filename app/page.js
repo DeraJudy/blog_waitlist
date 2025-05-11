@@ -1,8 +1,35 @@
+'use client'
 import Image from "next/image";
 import Head from "next/head";
 import { FaApple, FaGoogle } from "react-icons/fa";
+import { useState } from "react";
 
 export default function Home() {
+
+  const [email, setEmail ] = useState("");
+  const [status, setStatus ] = useState("");
+
+  const handleSubmit = async () => {
+    if (!email) return;
+  
+    setStatus("Submitting...");
+  
+    const res = await fetch("/api/waitlist", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email }),
+    });
+  
+    const data = await res.json();
+    if (res.ok) {
+      setStatus("✅ You're on the waitlist!");
+      setEmail(""); // clear input
+    } else {
+      setStatus(data.message || data.error || "Something went wrong.");
+    }
+  };
+  
+
   return (
     <>
       <Head>
@@ -25,25 +52,27 @@ export default function Home() {
         <div
           className="relative flex items-center justify-center w-full max-w-lg bg-transparent shadow-lg 
           shadow-blue-500/50 rounded-xl overflow-hidden 
-          border-2 border-transparent p-8 h-auto sm:h-[500px] md:h-[550px]"
+          border-2 border-transparent py-2 px-8 h-auto sm:h-[500px] md:h-[450px]"
         >
           {/* Moving Border Effect */}
           <div className="absolute inset-0 w-full h-full border-2 border-transparent rounded-xl 
           animate-moving-border" />
 
           {/* Inner Content */}
-          <div className="relative z-10 text-white text-lg font-semibold px-2 md:px-8">
+          <div className="relative z-10 text-white text-lg font-semibold px-2 md:px-5">
             <div className="text-center">
-              <h3 className="text-[#AC1754] ffont-primary font-bold text-2xl sm:text-3xl md:text-5xl md:font-black ">
+              <h3 className="text-[#AC1754] font-primary font-bold text-2xl sm:text-3xl md:text-5xl 
+              md:font-black ">
                 Join our waitlist
               </h3>
-              <p className="mt-3 text-[#ffffff] font-secondary font-normal text-base md:text-xl md:font-bold">
+              <p className="mt-9 text-[#ffffff] font-secondary font-normal text-base md:text-xl 
+              md:font-bold leading-7">
                 Sign up for our newsletter to receive the latest updates and
                 insights straight to your inbox.
               </p>
             </div>
 
-            <div className="mt-5 space-x-4 flex justify-center">
+            {/* <div className="mt-5 space-x-4 flex justify-center">
               <div className="inline-block p-3 bg-black rounded-full hover:bg-gray-800 
               transition duration-300 cursor-pointer">
                 <FaGoogle className="text-[#F7A8C4] w-6 h-6" />
@@ -52,21 +81,26 @@ export default function Home() {
               transition duration-300 cursor-pointer">
                 <FaApple className="text-[#F7A8C4] w-6 h-6" />
               </div>
-            </div>
+            </div> */}
 
-            <p className="text-center mt-6 font-bold font-primary lg:font-black">OR</p>
+            {/* <p className="text-center mt-6 font-bold font-primary lg:font-black">OR</p> */}
 
             <div className="mt-6 flex flex-col items-center space-y-4">
               <input
                 type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
                 placeholder="Enter your Email"
-                className="w-full max-w-xs p-3 rounded-lg border-2 border-[#AC1754] bg-transparent 
-                text-[#000000] focus:outline-none focus:ring-2 focus:ring-[#007FFF] "
+                className="w-full max-w-xs p-3 rounded-lg border-2 border-[#007FFF] bg-transparent 
+                text-[#000000] focus:outline-none focus:ring-2 focus:ring-white"
               />
-              <button className="relative inline-flex items-center px-12 py-3 overflow-hidden text-lg 
-              font-medium text-[#AC1754] border-2 border-[#ffffff] rounded-full hover:text-[#AC1754]
-              group hover:bg-gray-50 hover:border-[#000] transition duration-300">
-                <span className="absolute left-0 block w-full h-0 transition-all bg-[#007FFF] opacity-100 
+              <button 
+                onClick={handleSubmit}
+                className="relative inline-flex items-center px-12 py-3 overflow-hidden text-lg 
+                font-medium text-[#AC1754] border-2 border-[#ffffff] rounded-full hover:text-[#8AA8EE]
+                group hover:bg-gray-50 hover:border-[#000] transition duration-300"
+              >
+                <span className="absolute left-0 block w-full h-0 transition-all bg-[#AC1754] opacity-100 
                 group-hover:h-full top-1/2 group-hover:top-0 duration-400 ease" />
                 <span className="absolute right-0 flex items-center justify-start w-10 h-10 duration-300 
                 transform translate-x-full group-hover:translate-x-0 ease">
@@ -87,6 +121,21 @@ export default function Home() {
                 </span>
                 <span className="relative font-primary">Join WaitList</span>
               </button>
+              {status && (
+                <div
+                  className={`mt-2 px-4 py-2 rounded-md text-base font-medium flex items-center gap-2
+                    ${
+                      status.includes("✅")
+                        ? "bg-green-100 text-green-800"
+                        : status.includes("❌") || status.toLowerCase().includes("wrong")
+                        ? "bg-red-500 text-red-800"
+                        : "bg-[#AC1754] text-white"
+                    }`}
+                >
+                  {status}
+                </div>
+              )}
+
             </div>
           </div>
         </div>
