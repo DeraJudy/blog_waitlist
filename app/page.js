@@ -22,7 +22,7 @@ export default function Home() {
   
     const data = await res.json();
     if (res.ok) {
-      setStatus("✅ You're on the waitlist!");
+      setStatus("You're on the waitlist!");
       setEmail(""); // clear input
     } else {
       setStatus(data.message || data.error || "Something went wrong.");
@@ -85,7 +85,35 @@ export default function Home() {
 
             {/* <p className="text-center mt-6 font-bold font-primary lg:font-black">OR</p> */}
 
+            
+
             <div className="mt-6 flex flex-col items-center space-y-4">
+
+            {status && (
+              <div className="fixed top-5 right-5 z-50 shadow-lg rounded-md max-w-xs w-full">
+                <div
+                  className={`px-5 py-4 rounded-md text-base font-medium flex items-start gap-3 shadow-md transition-all duration-300
+                    ${
+                      status.includes("✅")
+                        ? "bg-green-100 text-green-800"
+                        : status.includes("❌") || status.toLowerCase().includes("wrong")
+                        ? "bg-red-100 text-red-800"
+                        : "bg-[#AC1754] text-white"
+                    }`}
+                >
+                  <span className="text-xl">
+                    {status.includes("✅")
+                      ? "✅"
+                      : status.includes("❌") || status.toLowerCase().includes("wrong")
+                      ? "❌"
+                      : "ℹ️"}
+                  </span>
+                  <p className="flex-1 mt-1">{status}</p>
+                </div>
+              </div>
+            )}
+
+
               <input
                 type="email"
                 value={email}
@@ -121,20 +149,6 @@ export default function Home() {
                 </span>
                 <span className="relative font-primary">Join WaitList</span>
               </button>
-              {status && (
-                <div
-                  className={`mt-2 px-4 py-2 rounded-md text-base font-medium flex items-center gap-2
-                    ${
-                      status.includes("✅")
-                        ? "bg-green-100 text-green-800"
-                        : status.includes("❌") || status.toLowerCase().includes("wrong")
-                        ? "bg-red-500 text-red-800"
-                        : "bg-[#AC1754] text-white"
-                    }`}
-                >
-                  {status}
-                </div>
-              )}
 
             </div>
           </div>
