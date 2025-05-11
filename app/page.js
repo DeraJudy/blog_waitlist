@@ -60,7 +60,7 @@ export default function Home() {
         <div
           className="relative flex items-center justify-center w-full max-w-lg bg-transparent shadow-lg 
           shadow-blue-500/50 rounded-xl overflow-hidden 
-          border-2 border-transparent py-2 px-8 h-auto sm:h-[500px] md:h-[450px]"
+          border-2 border-transparent py-9 px-8 md:py-2 h-auto sm:h-[500px] md:h-[450px]"
         >
           {/* Moving Border Effect */}
           <div className="absolute inset-0 w-full h-full border-2 border-transparent rounded-xl 
